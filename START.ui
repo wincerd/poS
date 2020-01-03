@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1091</width>
+    <height>781</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTableView" name="tableView">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>50</y>
+      <width>491</width>
+      <height>551</height>
+     </rect>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOn</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>620</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>SAVE</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>620</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>CANCLE</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_3">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>620</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PRINT</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>20</y>
+      <width>191</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>hot dog</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>cold dog</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>20</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Customer</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>20</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1091</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menufile">
+    <property name="title">
+     <string>FILE</string>
+    </property>
+    <addaction name="actionexit"/>
+    <addaction name="actionexit_2"/>
+   </widget>
+   <widget class="QMenu" name="menusale">
+    <property name="title">
+     <string>SALE</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menubuy">
+    <property name="title">
+     <string>BUY</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menureport">
+    <property name="title">
+     <string>REPORT</string>
+    </property>
+    <addaction name="actionDaily"/>
+    <addaction name="actionWeekly"/>
+    <addaction name="actionYear_to_date"/>
+   </widget>
+   <addaction name="menufile"/>
+   <addaction name="menusale"/>
+   <addaction name="menubuy"/>
+   <addaction name="menureport"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionexit">
+   <property name="text">
+    <string>logout</string>
+   </property>
+  </action>
+  <action name="actionexit_2">
+   <property name="text">
+    <string>exit</string>
+   </property>
+  </action>
+  <action name="actionDaily">
+   <property name="text">
+    <string>Daily</string>
+   </property>
+  </action>
+  <action name="actionWeekly">
+   <property name="text">
+    <string>Weekly</string>
+   </property>
+  </action>
+  <action name="actionYear_to_date">
+   <property name="text">
+    <string>Year_to_date</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>tableView</sender>
+   <signal>entered(QModelIndex)</signal>
+   <receiver>label</receiver>
+   <slot>update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>825</x>
+     <y>346</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>615</x>
+     <y>51</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
