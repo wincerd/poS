@@ -6,7 +6,8 @@ from PyQt5.QtCore import (QFile, QFileInfo, QPoint, QSettings, QSignalMapper,
 
 from PyQt5 import QtCore, QtGui, QtWidgets,QtPrintSupport
 from PyQt5.QtWidgets import( QTableView,QTableWidget,QTableWidgetItem, QHeaderView,QAbstractItemView,QScrollBar,
-                             QDialog,QAction,QMessageBox,QWidget,QApplication,QMainWindow,QGridLayout,QMdiArea,QTextEdit,QMdiSubWindow,QStyledItemDelegate,QLineEdit,QCompleter)
+                             QDialog,QAction,QMessageBox,QWidget,QApplication,QMainWindow,QGridLayout,QMdiArea,
+                             QTextEdit,QMdiSubWindow,QStyledItemDelegate,QLineEdit,QCompleter,QVBoxLayout)
 from PyQt5.QtGui import QIcon, QKeySequence
 from PyQt5.QtSql import QSqlTableModel, QSqlDatabase
 from addItems import Ui_Dialog
@@ -27,7 +28,7 @@ class Ui_MainWindow(QMainWindow):
         self.setCentralWidget(self.mdiArea)
         self.new = database()
         self.new.connect()
-
+        
         self.mdiArea.subWindowActivated.connect(self.updateMenus)
         self.windowMapper = QSignalMapper(self)
         self.windowMapper.mapped[QWidget].connect(self.setActiveSubWindow)
@@ -163,6 +164,10 @@ class Ui_MainWindow(QMainWindow):
     def sales(self):
         self.subwindow.show()
         self.subwindow.resize(1090, 781)
+        layout = QVBoxLayout(self)
+        
+       
+
         self.Save = QtWidgets.QPushButton(self.subwindow)
         self.Save.setGeometry(QtCore.QRect(660, 620, 75, 23))
         self.Save.setObjectName("pushButton")
@@ -186,6 +191,7 @@ class Ui_MainWindow(QMainWindow):
         self.customer2Lbl.setGeometry(QtCore.QRect(910, 20, 121, 21))
         self.customer2Lbl.setText("Customers")
         self.customer2Lbl.setObjectName("customer2Lbl")
+        layout.addWidget(self.Save)
     def Buy(self):
         
         self.panel.show()
@@ -208,7 +214,7 @@ class Ui_MainWindow(QMainWindow):
         #self.tableView.setItemDelegate(TableItemCompleter())
         self.model =  QtGui.QStandardItemModel(0,4)
         nrow = self.model.rowCount()
-        ncol = self.model.columnCount()
+        self.ncol = self.model.columnCount()
         item = QtGui.QStandardItem()
         self.model.itemChanged.connect(self.Itemchanged)
         number = self.model.columnCount() + 1
@@ -231,9 +237,8 @@ class Ui_MainWindow(QMainWindow):
         self.tableView.keyPressEvent = self.newOnkeyPressEvent
     
     def data(self):
-        model = self.tableView.model()
+        model = self.tableView.model()       
         data = []
-        datas = {}
         for row in range(self.model.rowCount()):
           data.append([])
           for column in range(self.model.columnCount()):
@@ -241,12 +246,6 @@ class Ui_MainWindow(QMainWindow):
             # We suppose data are strings
             data[row].append(str(self.model.data(index)))
         d=[]
-##        c = QtWidgets.QComboBox(self.tableView)
-##        c.setEditable(True)
-##        c.addItems(['aell11','bell12','cell13','cell14','zell15',])
-##        self.tableView.setIndexWidget(self.model.index(0, 0),c)
-        v = self.new.item_list() 
-        print(v)
         for raw in data:
             count = 0
             for i in raw:
@@ -254,34 +253,38 @@ class Ui_MainWindow(QMainWindow):
                     count = count + 1
             if count < 4:
                 x= (row,column)
-                print(x)
                 d.append(raw)
-
         return d        
-        
     def Itemchanged(self,e):
-        data = self.data()
-
-        print("eee",e.column(),e.row())
+        data = self.data()   
+##        ("colum changed",e.column(),e.row())
+        print("data",data)
+        length= len(data)
+        ID = data[length - 1][0]
+        if  ID != "":
+            rcl = self.new.items_name(ID)
+            print(rcl)
+            for i in range(1,self.ncol):
+                f = rcl[0][i]
+                self.model.setData(self.model.index(e.row(), i), f, 0)     
+            print("rcl",rcl)
+        else:
+            print("not string")
         v = self.new.item_list()
-        
         rows = sorted(set(index.row() for index in
                       self.tableView.selectedIndexes()))
         for row in rows:
             print('Row %d is selected' % row)
         for i in data:
             print(i)
-
         return data
 
     def find_customers(self):
         self.comboBox = QtWidgets.QComboBox(self.subwindow)
         self.comboBox.setGeometry(QtCore.QRect(640, 20, 191, 22))
         self.comboBox.setEditable(True)
-        self.comboBox.setObjectName("comboBox")
-        
+        self.comboBox.setObjectName("comboBox")      
         data = self.new.customers()
-        print(data)
         for i in data:
             self.comboBox.addItem(i[0])
             
@@ -317,8 +320,22 @@ class TableItemCompleter(QStyledItemDelegate):
             for b in i:
                 completion_ls.append(b)
         autoComplete = QCompleter(completion_ls)
+        
+        autoComplete.setCompletionColumn(0)
+        autoComplete.setCompletionRole(QtCore.Qt.EditRole)
+        autoComplete.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
         editor.setCompleter(autoComplete)
         return editor
+    def setEditorData(self, editor, index):
+        print( "setEditorData")
+        super().setEditorData(editor, index)
+    def closeEditor(self, editor, hint=None):
+        print( "closeEditor")
+        super().closeEditor(editor, hint)
+    def commitData(self, editor):
+        print( "commitData")
+        super().commitData(editor)
+
 
 def stylesheet(self):
         return """

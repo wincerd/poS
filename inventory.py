@@ -158,6 +158,7 @@ if __name__ == '__main__':
         print( "editor: %s" % edt )
     
     def _completerSetupFunction(editor, index):
+        print(editor)
         print( "completer setup: editor=%s, index=%s" % (editor, index))
         completer = QCompleter(base_items, editor)
         completer.setCompletionColumn(0)

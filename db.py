@@ -32,11 +32,8 @@ class database():
         return items
         
     def items_name(self,name):
-        ## use variable name
-  
-        sqlite_select_query = "SELECT item_name,item_description,item_cost,item_price,item_number  from items where items =(?)",((name,))
-        self.cursor.execute(sqlite_select_query)
-        items = self.cursor.fetchone()
+        self.cursor.execute('SELECT * FROM items WHERE item_name=(?)', (name,))
+        items = self.cursor.fetchall()
         return items
     def sales(self):
         sqlite_select_query = """SELECT item_name,item_description,item_cost,item_price,item_number  from items"""
