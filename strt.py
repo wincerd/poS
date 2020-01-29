@@ -20,11 +20,14 @@ class Ui_MainWindow(QMainWindow):
     def __init__(self,parent=None):
         super().__init__(parent)
         self.mdiArea = QMdiArea()
+        self.layout = QtWidgets.QGridLayout(self)
         self.ni = Subwindow(self.mdiArea)
         self.panel = Ui_Dialog()
+        
         self.mdiArea.addSubWindow(self.ni)
         self.mdiArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         self.mdiArea.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        
         self.setCentralWidget(self.mdiArea)
         self.new = database()
         self.new.connect()
@@ -164,10 +167,6 @@ class Ui_MainWindow(QMainWindow):
     def sales(self):
         self.subwindow.show()
         self.subwindow.resize(1090, 781)
-        layout = QVBoxLayout(self)
-        
-       
-
         self.Save = QtWidgets.QPushButton(self.subwindow)
         self.Save.setGeometry(QtCore.QRect(660, 620, 75, 23))
         self.Save.setObjectName("pushButton")
@@ -191,9 +190,12 @@ class Ui_MainWindow(QMainWindow):
         self.customer2Lbl.setGeometry(QtCore.QRect(910, 20, 121, 21))
         self.customer2Lbl.setText("Customers")
         self.customer2Lbl.setObjectName("customer2Lbl")
-        layout.addWidget(self.Save)
-    def Buy(self):
+        self.layout.addWidget(self.customerLbl, 0,0,0,1)
         
+        self.layout.addWidget(self.Save, 2, 0)
+        self.layout.addWidget(self.SaveNew, 2, 1)
+        self.layout.addWidget(self.Cancel, 2, 2)
+    def Buy(self):
         self.panel.show()
 
     def win(self):
@@ -206,6 +208,7 @@ class Ui_MainWindow(QMainWindow):
    
     def SalesTble(self):
         self.tableView = QTableView(self.subwindow)
+        self.layout.addWidget(self.Save, 0,1, 0,4)
         self.tableView.setItemDelegateForColumn(0, (TableItemCompleter()))
 ##        self.tableView.setItemDelegate(Delegate())
         self.tableView.setStyleSheet(stylesheet(self))
@@ -281,6 +284,7 @@ class Ui_MainWindow(QMainWindow):
 
     def find_customers(self):
         self.comboBox = QtWidgets.QComboBox(self.subwindow)
+        self.layout.addWidget(self.comboBox,0,2)
         self.comboBox.setGeometry(QtCore.QRect(640, 20, 191, 22))
         self.comboBox.setEditable(True)
         self.comboBox.setObjectName("comboBox")      
