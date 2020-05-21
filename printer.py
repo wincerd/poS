@@ -82,9 +82,9 @@ class Window(QtWidgets.QWidget):
 ##        self.printer.setPageSize(QPageSize(QSizeF(width, height), QPageSize.Unit.Point, 'Cheque'))
 ##        self.printer.setFullPage(True)
 
-        dialog = QtPrintSupport.QPrintDialog(self.printer, self)
+        dialog = QtPrintSupport.QPrintDialog()
         if dialog.exec_() == QtWidgets.QDialog.Accepted:
-            self.editor.document().print_(dialog.printer())
+            self.editor.document().print_(self.printer)
 
     def handlePreview(self):
         

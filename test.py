@@ -1,16 +1,25 @@
 from PyQt5 import QtGui,QtCore, QtWidgets, QtPrintSupport
+from PyQt5.QtCore import QSize
 
 app = QtWidgets.QApplication([])
 
 window = QtWidgets.QWidget()
-
-lst = QtWidgets.QListWidget(window)
+##window.setFixedSize(QSize(200,500))
+editor = QtWidgets.QTextEdit(window)
+editor.setFixedSize(QSize(200,500))
+##lst = QtWidgets.QListWidget(window)
 ##lst.addItems(['Winnie Puh', 'Monday', 'Minnesota', 'Dracula Calsta Flockhart Meningitis', 'Once', '123345', 'Fin'])
-lst.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-lst.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-lst.setFixedSize(lst.sizeHintForColumn(0) + 2 * lst.frameWidth(), lst.sizeHintForRow(0) * lst.count() + 2 * lst.frameWidth())
-item =  QtWidgets.QListWidgetItem(lst)
-editor = QtWidgets.QTextEdit(lst)
+##lst.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+##lst.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+##lst.setFixedSize(lst.sizeHintForColumn(0) + 2 * lst.frameWidth(), lst.sizeHintForRow(0) * lst.count() + 2 * lst.frameWidth())
+##item =  QtWidgets.QListWidgetItem(lst)
+class prin (object):
+  """docstring for prin """
+  def __init__(self):
+    pass
+  def 
+    
+    
 space = "&nbsp;"
 header =    '<h3  style="margin-left:1.5em">'+  space * 10 + "W.C wholesalers</h3><h3>" + space * 15  + "Shuja hse</h3><h6> "+ space * 16 +" Helena Road</h6>"
             
@@ -41,7 +50,7 @@ editor.append(header)
 editor.append(content)
 editor.append(math)
 editor.append(footer)
-lst.setItemWidget(item,editor)
+##lst.setItemWidget(item,editor)
 ##list_widget.setItemWidget(item, widget)
 
 window.show()
