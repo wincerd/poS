@@ -27,7 +27,6 @@ class Window(QtWidgets.QWidget):
         self.handlecontent()
         self.handlePrint()
     def handlecontent(self):
-        
         space = "&nbsp;"
         header =    '<h3  style="margin-left:1.5em">'+  space * 10 + "W.C wholesalers</h3><h3>" + space * 15  + "Shuja hse</h3><h6> "+ space * 16 +" Helena Road</h6>"
                     
@@ -62,7 +61,7 @@ class Window(QtWidgets.QWidget):
     def handleOpen(self):
         path = QtWidgets.QFileDialog.getOpenFileName(
             self, 'Open file', '',
-            'HTML files (*.html);;Text files (*.txt)')[0]
+            'HTML files (*.html);;Text files (*.txt);;Pdf files (*.pdf)')[0]
         if path:
             file = QtCore.QFile(path)
             if file.open(QtCore.QIODevice.ReadOnly):
@@ -73,7 +72,7 @@ class Window(QtWidgets.QWidget):
                     self.editor.setHtml(text)
                 else:
                     self.editor.setPlainText(text)
-                file.close()
+##                file.close()
 
     def handlePrint(self):
 ##        width = 800
@@ -81,13 +80,14 @@ class Window(QtWidgets.QWidget):
         self.printer = QtPrintSupport.QPrinter()
 ##        self.printer.setPageSize(QPageSize(QSizeF(width, height), QPageSize.Unit.Point, 'Cheque'))
 ##        self.printer.setFullPage(True)
-
+        self.printer.NativeFormat
         dialog = QtPrintSupport.QPrintDialog()
+        
         if dialog.exec_() == QtWidgets.QDialog.Accepted:
-            self.editor.document().print_(self.printer)
+            print(self.editor)
+            self.editor.print_(self.printer)
 
     def handlePreview(self):
-        
         dialog = QtPrintSupport.QPrintPreviewDialog(self.printer)
         dialog.paintRequested.connect(self.editor.print_)
         dialog.exec_()
@@ -96,6 +96,35 @@ class Window(QtWidgets.QWidget):
         enable = not self.editor.document().isEmpty()
         self.buttonPrint.setEnabled(enable)
         self.buttonPreview.setEnabled(enable)
+    def onSaveButtonClicked(self):
+        reply = QtGui.QMessageBox.question(parent=self, title='Attention',
+                                           text='File will be overwritten.\nDo you still want to proceed?',
+                                           buttons=QtGui.QMessageBox.Yes | QtGui.QMessageBox.No,
+                                           defaultButton=QtGui.QMessageBox.No)
+
+        if reply == QtGui.QMessageBox.Yes:
+            filename = self.inputFileLineEdit.text()
+            length = self.lengthSpinBox.value()
+            width = self.widthSpinBox.value()
+            line_width = self.lineWidthSpinBox.value()
+            rounded = self.cornersCheckBox.isChecked()
+            corners_radius = self.cornersSpinBox.value()
+            x = self.xSpinBox.value()
+            y = self.ySpinBox.value()
+
+            print( "Values are: ")
+            print( "Filename: %s" % filename)
+            print( "Length: %.2f Width: %.2f" % (length, width))
+            print( "Line width: %.2f" % line_width)
+            if corners_radius:
+                print("Corner radius: %.2f" % corners_radius)
+            print("x: %.2f y: %.2f" % (x, y))
+    def onInputFileButtonClicked(self):
+        filename, filter = QtGui.QFileDialog.getOpenFileName(parent=self, caption='Open file', dir='.', filter='Kicad PCB Files (*.txt)')
+
+        if filename:
+            self.inputFileLineEdit.setText(filename)
+
 
 if __name__ == '__main__':
 
